@@ -15,12 +15,12 @@ class CreateAuchanStoresTable extends Migration
     {
         Schema::create('auchan_stores', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('external_id');
             $table->string('name');
             $table->string('city');
             $table->double('latitude');
             $table->double('longitude');
-            $table->string('url');
-            $table->boolean('petrol_station');
+            $table->string('sub_url');
             $table->timestamps();
         });
     }

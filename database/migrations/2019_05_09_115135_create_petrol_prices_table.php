@@ -15,10 +15,10 @@ class CreatePetrolPricesTable extends Migration
     {
         Schema::create('petrol_prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('pb95');
-            $table->double('pb98');
-            $table->double('diesel');
-            $table->double('lpg');
+            $table->double('pb95')->nullable();
+            $table->double('pb98')->nullable();
+            $table->double('diesel')->nullable();
+            $table->double('lpg')->nullable();
             $table->integer('store_id');
             $table->timestamps();
         });

@@ -11,8 +11,21 @@
 |
 */
 
+use App\HttpStoreUpdater;
+use App\HttpPetrolUpdater;
+use GuzzleHttp\Client;
+
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    //return $router->app->version();
+    $client = new Client();
+
+    $storeUpdater = new HttpStoreUpdater(env('AUCHAN_STORES_URI'),
+        env('AUCHAN_API_KEY'), $client);
+    $storeUpdater->update();
+
+    $petrolUpdater = new HttpPetrolUpdater(env('AUCHAN_STORES_URI'),
+        env('AUCHAN_API_KEY'), $client);
+    return $petrolUpdater->update();
 });
 
 $router->get('/store', function () use ($router) {
