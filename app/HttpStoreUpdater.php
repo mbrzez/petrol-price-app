@@ -2,36 +2,93 @@
 
 namespace App;
 
+use App\Utils\HttpClientUtils;
 
 class HttpStoreUpdater
 {
-    protected $url;
-    protected $api;
+    /**
+     * Base url to Auchan API
+     *
+     * @var string
+     */
+    protected $baseUrl;
+
+    /**
+     * API key to access restricted resource
+     *
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
+     * GuzzleHttp REST client
+     *
+     * @var \GuzzleHttp\Client
+     */
     protected $client;
 
-    public function __construct($uri, $api, $client)
+    /**
+     * @var \App\Utils\HttpClientUtils
+     */
+    protected $httpUtils;
+
+
+    /**
+     * HttpStoreUpdater constructor.
+     * @param string $baseUrl
+     * @param string $apiKey
+     * @param \GuzzleHttp\Client $client
+     */
+    public function __construct(string $baseUrl, string $apiKey, \GuzzleHttp\Client $client)
     {
-        $this->uri = $uri;
-        $this->api = $api;
+        $this->baseUrl = $baseUrl;
+        $this->apiKey = $apiKey;
         $this->client = $client;
+        $this->httpUtils = new HttpClientUtils($baseUrl, $apiKey);
     }
 
-    public function update() {
-        $response = $this->client->request('GET', $this->uri, [
-            'query' => ['api-key' => $this->api]
-        ]);
+    /**
+     * Updates AuchanStore models
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function update(): void {
+        $storesSummaryResponse = $this->client->request('GET', $this->baseUrl, $this->httpUtils->getQueryApiParams());
 
-        $contents = $response->getBody()->getContents();
-        $stores = json_decode($contents);
+        $storesSummaryContents = $storesSummaryResponse->getBody()->getContents();
+        $storesSummaryInfo = json_decode($storesSummaryContents);
 
-        foreach ($stores as $store) {
-            AuchanStore::updateOrCreate(['external_id' => $store->store_id], [
-                'name' => $store->post_title,
-                'city' => $store->city,
-                'latitude' => $store->latitude,
-                'longitude' => $store->longitude,
-                'sub_url' => $store->store_url_name->pl
+        foreach ($storesSummaryInfo as $storeSummaryInfo) {
+            $auchanStore = AuchanStore::updateOrCreate(['external_id' => $storeSummaryInfo->store_id], [
+                'name' => $storeSummaryInfo->post_title,
+                'city' => $storeSummaryInfo->city,
+                'latitude' => $storeSummaryInfo->latitude,
+                'longitude' => $storeSummaryInfo->longitude,
+                'sub_url' => $storeSummaryInfo->store_url_name->pl,
             ]);
+
+            $this->updatePetrolStationField($auchanStore);
         }
+    }
+
+    /**
+     * Updates petrol station field for AuchanStore models
+     *
+     * @param AuchanStore $auchanStore
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updatePetrolStationField(AuchanStore $auchanStore): void {
+        $subUrl = $auchanStore->getAttribute("sub_url");
+        $fullStoreResponse = $this->client->request('GET',
+            $this->httpUtils->getFullUrl($subUrl),
+            $this->httpUtils->getQueryApiParams()
+        );
+
+        $fullStoreContents = $fullStoreResponse->getBody()->getContents();
+        $fullStoreInfo = json_decode($fullStoreContents);
+        $hasStation = $fullStoreInfo->gasstation->state ? true : false;
+
+        $auchanStore->setAttribute('petrol_station', $hasStation);
+        $auchanStore->save();
     }
 }

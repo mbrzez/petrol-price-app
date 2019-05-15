@@ -12,51 +12,10 @@
 */
 
 use App\HttpStoreUpdater;
-use App\HttpPetrolUpdater;
 use GuzzleHttp\Client;
 
-$router->get('/', function () use ($router) {
-    //return $router->app->version();
-    $client = new Client();
 
-    $storeUpdater = new HttpStoreUpdater(env('AUCHAN_STORES_URI'),
-        env('AUCHAN_API_KEY'), $client);
-    $storeUpdater->update();
-
-    $petrolUpdater = new HttpPetrolUpdater(env('AUCHAN_STORES_URI'),
-        env('AUCHAN_API_KEY'), $client);
-    return $petrolUpdater->update();
-});
-
-$router->get('/store', function () use ($router) {
-    $attributes = [
-        'name' => 'Auchan Rumia',
-        'city' => 'Rumia',
-        'latitude' => 54.5863375,
-        'longitude' => 18.3711997,
-        'url' => 'http://example.com/url',
-        'petrol_station' => true
-    ];
-
-    //$store = new App\AuchanStore($attributes);
-    //$store->save();
-
-    $store = App\AuchanStore::find(1)->prices;
-
-    return $store;
-});
-
-$router->get('/petrol', function () use ($router) {
-    $attributes = [
-        'pb95' => 5.12,
-        'pb98' => 5.30,
-        'diesel' => 5.10,
-        'lpg' => 2.02,
-        'store_id' => 1
-    ];
-
-    $price = new App\PetrolPrice($attributes);
-    $price->save();
-
-    return $price->store;
+$router->group(['prefix' => 'api'], function() use ($router) {
+    $router->get('petrol-prices', 'PetrolController@getAllPetrolPrices');
+    $router->get('petrol-prices/{id}', 'PetrolController@getPetrolPricesForStore');
 });

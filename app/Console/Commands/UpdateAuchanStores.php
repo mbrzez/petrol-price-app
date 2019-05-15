@@ -4,30 +4,29 @@
 namespace App\Console\Commands;
 
 use App\HttpStoreUpdater;
-use App\HttpPetrolUpdater;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class UpdatePetrolPrices extends Command
+class UpdateAuchanStores extends Command
 {
     /**
      * Command signature
      *
      * @var string
      */
-    protected $signature = 'petrol-prices:update {--url=} {--api-key=}';
+    protected $signature = 'auchan-stores:update {--url=} {--api-key=}';
 
     /**
      * Command description
      *
      * @var string
      */
-    protected $description = 'Updates all petrol prices';
+    protected $description = 'Updates Auchan stores list in database';
 
     /**
-     * Insert new petrol prices from Auchan Store stations
+     * Updates AuchanStores models
      *
      * @return void
      */
@@ -42,8 +41,8 @@ class UpdatePetrolPrices extends Command
 
         try {
             $client = new Client();
-            $petrolUpdater = new HttpPetrolUpdater($url, $apiKey, $client);
-            $petrolUpdater->update();
+            $storeUpdater = new HttpStoreUpdater($url, $apiKey, $client);
+            $storeUpdater->update();
         } catch (GuzzleException $e) {
             Log::error($e->getMessage());
         }

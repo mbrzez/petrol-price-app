@@ -21,6 +21,7 @@ class CreateAuchanStoresTable extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->string('sub_url');
+            $table->boolean('petrol_station')->nullable();
             $table->timestamps();
         });
     }

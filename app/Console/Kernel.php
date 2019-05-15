@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\UpdateAuchanStores::class,
         Commands\UpdatePetrolPrices::class
     ];
 
