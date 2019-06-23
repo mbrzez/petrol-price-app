@@ -25,7 +25,7 @@ class AuchanStore extends Model
      *
      * @var array
      */
-    protected $hidden = ['id', 'external_id', 'sub_url'];
+    protected $hidden = ['sub_url', 'created_at', 'updated_at'];
 
 
     /**

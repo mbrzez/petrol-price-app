@@ -11,11 +11,11 @@
 |
 */
 
-use App\HttpStoreUpdater;
-use GuzzleHttp\Client;
-
+$router->get('/', function () {
+    return view('index');
+});
 
 $router->group(['prefix' => 'api'], function() use ($router) {
-    $router->get('petrol-prices', 'PetrolController@getAllPetrolPrices');
-    $router->get('petrol-prices/{id}', 'PetrolController@getPetrolPricesForStore');
+    $router->get('auchan-stores', 'PetrolController@getAuchanStores');
+    $router->get('auchan-stores/{id}/petrol-prices', 'PetrolController@getPetrolPrices');
 });

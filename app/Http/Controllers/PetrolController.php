@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\AuchanStore;
+use Illuminate\Http\Request;
 
 class PetrolController extends Controller
 {
-    public function getAllPetrolPrices() {
-        $storesWithPrices = AuchanStore::with('prices')->where('petrol_station', '=', 1)->get();
+    public function getAuchanStores(Request $request) {
+        $stores = AuchanStore::all();
 
-        return $storesWithPrices;
+        if ($request->has('petrol_station')) {
+            $petrolStation = $request->get('petrol_station');
+            return $stores->where('petrol_station', '=', $petrolStation);
+        }
+
+        return $stores;
     }
 
-    public function getPetrolPricesForStore($id) {
+    public function getPetrolPrices($id) {
         $store = AuchanStore::findOrFail($id);
-        $priceWithStore = $store->prices()->latest()->get();
+        $priceWithStore = $store->prices()->orderBy('created_at', 'DESC')->get();
 
         return $priceWithStore;
     }
