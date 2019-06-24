@@ -42,7 +42,7 @@ const petrolStations = [
         value: 76, desc: "Auchan Rumia"
     },
     {
-        value: 78, desc: "Auchan Piaseczno"
+        value: 78, desc: "Auchan Rzeszów Krasne"
     },
     {
         value: 79, desc: "Auchan Rzeszów Krasne"

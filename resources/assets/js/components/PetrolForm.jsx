@@ -33,6 +33,8 @@ class PetrolForm extends React.Component {
         const value = e.target.value;
         const multiple = e.target.multiple;
 
+        console.log(name, value);
+
         if (multiple === true) {
             const options = e.target.selectedOptions;
             const values = Array.from(options).map(option => option.value);
@@ -71,7 +73,7 @@ class PetrolForm extends React.Component {
                     <div className="field">
                         <label className="label">Petrol stations</label>
                         <div className="select">
-                            <SelectOptions name="petrolStations" multiple={false} items={config.petrolStations} onSelectChange={this.handleSelectChange} />
+                            <SelectOptions name="station" multiple={false} items={config.petrolStations} onSelectChange={this.handleSelectChange} />
                         </div>
                     </div>
                     <div className="field">
@@ -94,6 +96,5 @@ class PetrolForm extends React.Component {
         );
     }
 }
-
 
 export default PetrolForm;

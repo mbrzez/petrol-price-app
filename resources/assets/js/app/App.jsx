@@ -32,14 +32,10 @@ class App extends React.Component {
         return (
             <section className="section">
                 <div className="container">
-                    <h1 className="title">
-                        Petrol Price App
-                    </h1>
-                    <p className="subtitle">
-                        Petrol prices on Auchan stations over whole Poland
-                    </p>
                     <div className="columns">
                         <div className="column is-4">
+                            <h1 className="title">Petrol Price App</h1>
+                            <p className="subtitle">Petrol prices on Auchan stations</p>
                             <PetrolForm onSubmitForm={this.handleSubmitForm} />
                         </div>
                         <div className="column is-8">

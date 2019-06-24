@@ -1,45 +1,105 @@
 import React from 'react';
 import * as echarts from 'echarts';
 
+
 class PetrolPriceChart extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidUpdate() {
-        console.log('Updating');
-        console.log(this.props.data);
+        const chartData = this.props.data;
+        const reversedChartData = chartData.reverse();
 
-        let myChart = echarts.init(document.getElementById('chart'));
+        const chartsHandle = echarts.init(document.getElementById('chart'));
 
-        // specify chart configuration item and data
-        let option = {
-            title: {
-                text: 'ECharts entry example'
-            },
-            tooltip: {},
-            legend: {
-                data:['Sales']
-            },
-            xAxis: {
-                data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-            },
-            yAxis: {},
-            series: [{
-                name: 'Sales',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
+        const collectSeries = (data, names) => {
+            let obj = {};
+
+            names.forEach((name) => {
+                obj[name] = [];
+            });
+
+            data.map((row) => {
+                names.forEach((name) => {
+                    obj[name].push(row[name]);
+                });
+            });
+
+            return obj;
         };
 
-        // use configuration item and data specified to show chart
-        myChart.setOption(option);
+        const series = collectSeries(reversedChartData, ['created_at', 'pb95', 'pb98', 'diesel', 'lpg']);
 
+
+        const xAxis = series['created_at'].map((value) => {
+            return new Date(value);
+        });
+
+        const combineSeries = (time, values) => {
+            let combined = [];
+
+            const len = time.length;
+
+            for (let i = 0; i < len; i++) {
+                combined.push([time[i], values[i]]);
+            }
+
+            console.log(combined);
+            return combined;
+        };
+
+        const options = {
+            xAxis: {
+                type: 'time',
+                data: xAxis
+            },
+            yAxis: {
+                type: 'value',
+                splitNumber: 10,
+                min: 1.5,
+                max: 6
+            },
+            series: [{
+                name: 'PB 95',
+                type: 'line',
+                data: combineSeries(xAxis, series['pb95'])
+            }, {
+                name: 'PB 98',
+                type: 'line',
+                data: combineSeries(xAxis, series['pb98'])
+            }, {
+                name: 'Diesel',
+                type: 'line',
+                data: combineSeries(xAxis, series['diesel'])
+            }, {
+                name: 'LPG',
+                type: 'line',
+                data: combineSeries(xAxis, series['lpg'])
+            }],
+            legend: {
+                type: 'plain'
+            },
+            tooltip: {
+                show: true
+            }
+        };
+
+        chartsHandle.setOption(options);
     }
 
     render() {
+        const chartStyle = {
+            minWidth: '400px',
+            width: '100%',
+            minHeight: '400px',
+            height: '100%'
+        };
+
         return (
-            <div id="chart"></div>
+            <div>
+                <div id="chart" style={chartStyle}></div>
+            </div>
         );
     }
 }
