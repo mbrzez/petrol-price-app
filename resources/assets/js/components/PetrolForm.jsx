@@ -2,7 +2,7 @@ import React from "react";
 import SelectOptions from "./SelectOptions.jsx";
 import axios from 'axios';
 
-import * as config from "../config/options";
+import * as config from "../config/app.options";
 
 class PetrolForm extends React.Component {
     constructor(props) {
@@ -33,8 +33,6 @@ class PetrolForm extends React.Component {
         const value = e.target.value;
         const multiple = e.target.multiple;
 
-        console.log(name, value);
-
         if (multiple === true) {
             const options = e.target.selectedOptions;
             const values = Array.from(options).map(option => option.value);
@@ -56,14 +54,9 @@ class PetrolForm extends React.Component {
         url = url.replace('{id}', this.state.station);
 
         axios.get(url).then(res => {
-            this.props.onSubmitForm(res.data, res.data);
+            let stationName = config.petrolStations.find(row => row.value == this.state.station).desc;
+            this.props.onSubmitForm(stationName, res.data, res.data);
         });
-
-        // if (this.state.showTable === true) {
-        //     axios.get(url).then(res => {
-        //         console.log(res.data);
-        //     });
-        // }
     }
 
     render() {

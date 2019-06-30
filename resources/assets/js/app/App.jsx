@@ -8,24 +8,24 @@ class App extends React.Component {
         super(props);
 
         this.state = {
+            stationName: '',
             chartData: [],
             tableData: []
         };
 
-        this.handleSubmitForm = this.handleSubmitForm.bind(this);
+        this.updateAfterFormSubmit = this.updateAfterFormSubmit.bind(this);
     }
 
-    handleSubmitForm(chartData, tableData) {
-        console.log('Chart data: ', chartData);
-        console.log('Table data: ', tableData);
-
+    updateAfterFormSubmit(stationName, chartData, tableData, ) {
         this.setState({
+            stationName: stationName,
             chartData: chartData,
             tableData: tableData
         });
     }
 
     render() {
+        const stationName = this.state.stationName;
         const chartData = this.state.chartData;
         const tableData = this.state.tableData;
 
@@ -36,10 +36,10 @@ class App extends React.Component {
                         <div className="column is-4">
                             <h1 className="title">Petrol Price App</h1>
                             <p className="subtitle">Petrol prices on Auchan stations</p>
-                            <PetrolForm onSubmitForm={this.handleSubmitForm} />
+                            <PetrolForm onSubmitForm={this.updateAfterFormSubmit} />
                         </div>
                         <div className="column is-8">
-                            <PetrolPriceChart data={chartData}/>
+                            <PetrolPriceChart stationName={stationName} data={chartData}/>
                         </div>
                     </div>
                     <div className="columns">

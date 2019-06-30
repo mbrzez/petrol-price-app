@@ -1,3 +1,5 @@
+const getPetrolPriceServiceUrl = '/api/auchan-stores/{id}/petrol-prices';
+
 const petrolStations = [
     {
         value: 27, desc: "Auchan Białystok Hetmańska"
@@ -93,6 +95,4 @@ const periods = [
     }
 ];
 
-const getPetrolPriceServiceUrl = '/api/auchan-stores/{id}/petrol-prices';
-
-export {petrolStations, periods, getPetrolPriceServiceUrl};
+export {getPetrolPriceServiceUrl, petrolStations, periods};
