@@ -1,4 +1,4 @@
-const getPetrolPriceServiceUrl = '/api/auchan-stores/{id}/petrol-prices';
+const getPetrolPriceServiceUrl = '/api/auchan-stores/{id}/petrol-prices?period={days}';
 
 const petrolStations = [
     {
@@ -74,24 +74,28 @@ const petrolStations = [
 
 const periods = [
     {
-        value: '-d',
-        desc: "Last day"
-    },
-    {
-        value: '-3d',
+        value: 3,
         desc: 'Last 3 days'
     },
     {
-        value: '-7d',
+        value: 7,
         desc: 'Last 7 days'
     },
     {
-        value: '-14d',
+        value: 14,
         desc: 'Last 14 days'
     },
     {
-        value: '-30d',
+        value: 30,
         desc: 'Last 30 days'
+    },
+    {
+        value: 60,
+        desc: 'Last 60 days'
+    },
+    {
+        value: 90,
+        desc: 'Last 90 days'
     }
 ];
 

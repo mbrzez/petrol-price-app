@@ -18,9 +18,11 @@ class PetrolController extends Controller
         return $stores;
     }
 
-    public function getPetrolPrices($id) {
+    public function getPetrolPrices($id, Request $request) {
         $store = AuchanStore::findOrFail($id);
-        $priceWithStore = $store->prices()->orderBy('created_at', 'DESC')->get();
+        $numResults = (int)$request->input('period') * 2;
+
+        $priceWithStore = $store->prices()->orderBy('created_at', 'ASC')->limit($numResults)->get();
 
         return $priceWithStore;
     }

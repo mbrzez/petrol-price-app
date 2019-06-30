@@ -11,7 +11,7 @@ class PetrolPriceChart extends React.Component {
 
     componentDidUpdate() {
         const chartData = this.props.data;
-        const series = collectSeries(chartData.reverse(), ['created_at', 'pb95', 'pb98', 'diesel', 'lpg']);
+        const series = collectSeries(chartData, ['created_at', 'pb95', 'pb98', 'diesel', 'lpg']);
 
         const xAxis = series['created_at'].map((value) => {
             return new Date(value);

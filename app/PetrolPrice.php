@@ -27,6 +27,17 @@ class PetrolPrice extends Model
      */
     protected $hidden = ['id', 'store_id'];
 
+    /**
+     * All casted model's properties
+     *
+     * @var array
+     */
+    protected $casts = [
+        'pb95' => 'double',
+        'pb98' => 'double',
+        'diesel' => 'double',
+        'lpg' => 'double'
+    ];
 
     /**
      * Defines relation between PetrolPrice and AuchanStore

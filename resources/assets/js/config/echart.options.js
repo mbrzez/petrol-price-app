@@ -15,8 +15,8 @@ const echartOptions = (xAxis, series) => {
             data: xAxis,
             axisLabel: {
                 formatter: (value) => {
-                    let date = new Date(value);
-                    let texts = [months[(date.getMonth() + 1)], date.getDate()];
+                    const date = new Date(value);
+                    const texts = [months[(date.getMonth() + 1)], date.getDate()];
 
                     return texts.join('-');
                 }

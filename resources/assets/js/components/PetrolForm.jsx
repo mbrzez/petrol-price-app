@@ -10,7 +10,7 @@ class PetrolForm extends React.Component {
 
         this.state = {
             station: 27,
-            period: '-d',
+            period: 3,
             showTable: false
         };
 
@@ -52,10 +52,13 @@ class PetrolForm extends React.Component {
 
         let url = config.getPetrolPriceServiceUrl;
         url = url.replace('{id}', this.state.station);
+        url = url.replace('{days}', this.state.period);
+
+        const showTable = this.state.showTable;
+        const stationName = config.petrolStations.find(row => row.value == this.state.station).desc;
 
         axios.get(url).then(res => {
-            let stationName = config.petrolStations.find(row => row.value == this.state.station).desc;
-            this.props.onSubmitForm(stationName, res.data, res.data);
+            this.props.onSubmitForm(stationName, showTable, res.data);
         });
     }
 

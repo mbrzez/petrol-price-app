@@ -9,6 +9,7 @@ class App extends React.Component {
 
         this.state = {
             stationName: '',
+            showTable: false,
             chartData: [],
             tableData: []
         };
@@ -16,18 +17,17 @@ class App extends React.Component {
         this.updateAfterFormSubmit = this.updateAfterFormSubmit.bind(this);
     }
 
-    updateAfterFormSubmit(stationName, chartData, tableData, ) {
+    updateAfterFormSubmit(stationName, showTable, chartData) {
         this.setState({
             stationName: stationName,
-            chartData: chartData,
-            tableData: tableData
+            showTable: showTable,
+            chartData: chartData
         });
     }
 
     render() {
         const stationName = this.state.stationName;
         const chartData = this.state.chartData;
-        const tableData = this.state.tableData;
 
         return (
             <section className="section">
@@ -44,7 +44,9 @@ class App extends React.Component {
                     </div>
                     <div className="columns">
                         <div className="column">
-                            <PetrolPriceTable data={tableData} />
+                            {this.state.showTable &&
+                                <PetrolPriceTable data={chartData}/>
+                            }
                         </div>
                     </div>
                 </div>
