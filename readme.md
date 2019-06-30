@@ -1,21 +1,23 @@
-# Lumen PHP Framework
+# Petrol Price App
+## Description
+Idea of an application is to fetch and store petrol prices from public API used on [Auchan](https://www.auchan.pl/) website. Auchan is a brand of French supermarkets operating in Poland. Some of their shops sale petrol. Application twice per day will fetch petrol prices by PHP command `petrol-prices:update`. Command execution will be scheduled by Unix cron. Application was built using Lumen PHP framework and React.
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+PHP back-end can be found in `app` directory
+React front-end can be found in `petrol-price-app/resources/assets`
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+## Running Webpack
+Development
+`npm run dev`
+Production
+`npm run prod`
 
-## Official Documentation
+## Running PHP
+Before you start the application please configure `.env` file and run php artisan migrations beforehand. In `.env` please set `AUCHAN_API_KEY` and `AUCHAN_STORES_URI` keys with respective values. Without these key-value pairs applcation will not work. In order to run Lumen migrations please use `php artisan migrate` command. 
+ 
+In order to run PHP build-in server use `php -S localhost:8000 -t public`.
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Below Lumen artisan commands were implemented
+`php artisan petrol-prices:update`
+`php artisan auchan-stores:update`
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The `auchan-stores:update` command can be run only once. It will fetch the list of all Auchan stores. Only supermarkets offering petrol will have special flag in a database. Then `petrol-prices:update` will collect all fuel prices. Petrol prices will be reflected in separate database table.
