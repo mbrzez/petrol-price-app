@@ -4,7 +4,6 @@ import PetrolPriceChart from '../components/PetrolPriceChart.jsx';
 import PetrolPriceTable from '../components/PetrolPriceTable.jsx';
 import * as config from '../config/app.options';
 import axios from 'axios';
-import {isNumeric} from "echarts/src/util/number";
 
 class App extends React.Component {
     constructor(props) {
@@ -27,7 +26,7 @@ class App extends React.Component {
     handleSelectChange(e) {
         let value = e.target.value;
 
-        if (isNumeric(e.target.value)) {
+        if (!isNaN(e.target.value)) {
             value = Number(e.target.value);
         }
 
@@ -72,6 +71,10 @@ class App extends React.Component {
     render() {
         const formData = this.state.form;
         const petrolPricesData = this.state.petrolPricesData;
+        const stationName = config.petrolStations.find(element =>
+            element.value === this.state.form.stationId
+        ).desc;
+        
         const eventHandlers = {
             handleSelectChange: this.handleSelectChange,
             handleCheckboxChange: this.handleCheckboxChange,
@@ -88,7 +91,7 @@ class App extends React.Component {
                             <PetrolForm {...formData} {...eventHandlers} />
                         </div>
                         <div className="column is-8">
-                            <PetrolPriceChart stationId={formData.stationId} chartData={petrolPricesData}/>
+                            <PetrolPriceChart stationName={stationName} chartData={petrolPricesData}/>
                         </div>
                     </div>
                     <div className="columns">

@@ -5,7 +5,7 @@ const seriesObject = (name, type, data) => {
         name: name,
         type: type,
         data: data
-    }
+    };
 };
 
 const echartOptions = (xAxis, series) => {
