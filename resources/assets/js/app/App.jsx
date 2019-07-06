@@ -1,33 +1,82 @@
 import React from 'react';
-import PetrolForm from "../components/PetrolForm.jsx";
-import PetrolPriceChart from "../components/PetrolPriceChart.jsx";
-import PetrolPriceTable from "../components/PetrolPriceTable.jsx";
+import PetrolForm from '../components/PetrolForm.jsx';
+import PetrolPriceChart from '../components/PetrolPriceChart.jsx';
+import PetrolPriceTable from '../components/PetrolPriceTable.jsx';
+import * as config from '../config/app.options';
+import axios from 'axios';
+import {isNumeric} from "echarts/src/util/number";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            stationName: '',
-            showTable: false,
-            chartData: [],
-            tableData: []
+            form: {
+                stationId: 76,
+                periodInDays: 7,
+                showTable: true
+            },
+            petrolPricesData: [],
         };
 
-        this.updateAfterFormSubmit = this.updateAfterFormSubmit.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleSelectChange = this.handleSelectChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    updateAfterFormSubmit(stationName, showTable, chartData) {
+    handleSelectChange(e) {
+        let value = e.target.value;
+
+        if (isNumeric(e.target.value)) {
+            value = Number(e.target.value);
+        }
+
         this.setState({
-            stationName: stationName,
-            showTable: showTable,
-            chartData: chartData
+            form: {
+                ...this.state.form,
+                [e.target.name]: value
+            }
+        });
+    }
+
+
+    handleCheckboxChange(e) {
+        this.setState({
+            form: {
+                ...this.state.form,
+                [e.target.name]: e.target.checked
+            }
+        });
+    }
+
+    handleFormSubmit() {
+        this.callPetrolPriceService();
+    }
+
+    componentDidMount() {
+        this.callPetrolPriceService();
+    }
+
+    callPetrolPriceService() {
+        let url = config.getPetrolPriceServiceUrl
+            .replace('{id}', this.state.form.stationId)
+            .replace('{days}', this.state.form.periodInDays);
+
+        axios.get(url).then(response => {
+            this.setState({
+                petrolPricesData: response.data
+            })
         });
     }
 
     render() {
-        const stationName = this.state.stationName;
-        const chartData = this.state.chartData;
+        const formData = this.state.form;
+        const petrolPricesData = this.state.petrolPricesData;
+        const eventHandlers = {
+            handleSelectChange: this.handleSelectChange,
+            handleCheckboxChange: this.handleCheckboxChange,
+            handleFormSubmit: this.handleFormSubmit
+        };
 
         return (
             <section className="section">
@@ -36,16 +85,16 @@ class App extends React.Component {
                         <div className="column is-4">
                             <h1 className="title">Petrol Price App</h1>
                             <p className="subtitle">Petrol prices on Auchan stations</p>
-                            <PetrolForm onSubmitForm={this.updateAfterFormSubmit} />
+                            <PetrolForm {...formData} {...eventHandlers} />
                         </div>
                         <div className="column is-8">
-                            <PetrolPriceChart stationName={stationName} data={chartData}/>
+                            <PetrolPriceChart stationId={formData.stationId} chartData={petrolPricesData}/>
                         </div>
                     </div>
                     <div className="columns">
                         <div className="column">
-                            {this.state.showTable &&
-                                <PetrolPriceTable data={chartData}/>
+                            { this.state.form.showTable &&
+                                <PetrolPriceTable tableData={petrolPricesData}/>
                             }
                         </div>
                     </div>

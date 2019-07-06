@@ -1,7 +1,9 @@
 import React from 'react';
 import * as echarts from 'echarts';
-import {echartOptions, seriesObject} from "../config/echart.options";
-import {collectSeries,  combineSeriesWithDate} from "../utils/combine";
+
+import {echartOptions, seriesObject} from '../config/echart.options';
+import {collectSeries,  combineSeriesWithDate} from '../utils/combine';
+import {petrolStations} from '../config/app.options';
 
 
 class PetrolPriceChart extends React.Component {
@@ -10,7 +12,8 @@ class PetrolPriceChart extends React.Component {
     }
 
     componentDidUpdate() {
-        const chartData = this.props.data;
+        const chartData = this.props.chartData;
+
         const series = collectSeries(chartData, ['created_at', 'pb95', 'pb98', 'diesel', 'lpg']);
 
         const xAxis = series['created_at'].map((value) => {
@@ -24,18 +27,22 @@ class PetrolPriceChart extends React.Component {
             seriesObject('LPG', 'line', combineSeriesWithDate(xAxis, series['lpg']))
         ];
 
+        console.log(chartSeries);
+
         const chart = echarts.init(document.getElementById('chart'));
         chart.setOption(echartOptions(xAxis, chartSeries));
     }
 
     render() {
+        const stationName = petrolStations.find(element =>
+            element.value === this.props.stationId
+        ).desc;
+
         return (
             <div>
-                {this.props.stationName &&
-                    <h3 className="subtitle is-5 has-text-centered">
-                        Petrol station: {this.props.stationName}
-                    </h3>
-                }
+                <h3 className="title is-4 has-text-centered">
+                    Petrol station {stationName}
+                </h3>
                 <div id="chart" className="chart-style"></div>
             </div>
         );

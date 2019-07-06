@@ -7,9 +7,8 @@ class PetrolPriceTable extends React.Component {
         this.state = {
             sorting: {
                 column: 'index',
-                type: 'ASC'
-            },
-            data: this.addIndex(this.props.data)
+                type: 'asc'
+            }
         };
 
         this.updateSorting = this.updateSorting.bind(this);
@@ -26,20 +25,19 @@ class PetrolPriceTable extends React.Component {
         return items.map((item) =>
             <tr key={item['index']}>
                 <td>{item['index']}</td>
-                <td>{item['pb95'].toFixed(2)}</td>
-                <td>{item['pb98'].toFixed(2)}</td>
-                <td>{item['diesel'].toFixed(2)}</td>
-                <td>{item['lpg'].toFixed(2)}</td>
+                <td>{!!(item['pb95']) ? item['pb95'].toFixed(2) : ''}</td>
+                <td>{!!(item['pb98']) ? item['pb98'].toFixed(2) : ''}</td>
+                <td>{!!(item['diesel']) ? item['diesel'].toFixed(2) : ''}</td>
+                <td>{!!(item['lpg']) ? item['lpg'].toFixed(2) : ''}</td>
                 <td>{item['created_at']}</td>
             </tr>
         );
     }
 
     sort(data, sorting) {
-        const type = sorting.type;
-        const column = sorting.column;
+        const {type, column} = sorting;
 
-        if (type === 'ASC') {
+        if (type === 'asc') {
             return data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
         } else {
             return data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
@@ -47,13 +45,12 @@ class PetrolPriceTable extends React.Component {
     }
 
     updateSorting(column) {
+        let type = 'asc';
         const sorting = this.state.sorting;
 
-        let type = 'ASC';
-
         if (sorting.column === column) {
-            if (sorting.type === 'ASC') {
-                type = 'DESC';
+            if (sorting.type === 'asc') {
+                type = 'desc';
             }
         }
 
@@ -65,16 +62,9 @@ class PetrolPriceTable extends React.Component {
         })
     }
 
-    componentDidUpdate(previousProps) {
-        if (previousProps.data.length !== this.props.data.length) {
-            this.setState({
-                data: this.addIndex(this.props.data)
-            });
-        }
-    }
-
     render() {
-        const sortedData = this.sort(this.state.data, this.state.sorting);
+        const indexedData = this.addIndex(this.props.tableData);
+        const sortedData = this.sort(indexedData, this.state.sorting);
         const tableRows = this.createTableRows(sortedData);
 
         return (
