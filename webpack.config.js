@@ -39,6 +39,12 @@ module.exports = {
             }
         ]
     },
+    optimization: {
+        splitChunks: {
+            name: 'vendors',
+            chunks: 'all'
+        }
+    },
     plugins: [
         new MiniCssExtractPlugin({
             filename: '../css/[name].css'
@@ -46,7 +52,8 @@ module.exports = {
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [
                 resolveProjectDir('public/js'),
-                resolveProjectDir('public/css')
+                resolveProjectDir('public/css'),
+                resolveProjectDir('public/fonts')
             ]
         })
     ],
