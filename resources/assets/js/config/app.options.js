@@ -1,78 +1,97 @@
-const getPetrolPriceServiceUrl = '/api/auchan-stores/{id}/petrol-prices?period={days}';
+export const getPetrolPriceServiceUrl = '/api/auchan-stores/{extId}/petrol-prices?maxResults={maxResults}';
 
-const petrolStations = [
+export const petrolStations = [
     {
-        value: 27, desc: "Auchan Białystok Hetmańska"
+        value: 2001,
+        desc: "Auchan Białystok Hetmańska"
     },
     {
-        value: 28, desc: "Auchan Białystok Produkcyjna"
+        value: 2002,
+        desc: "Auchan Białystok Produkcyjna"
     },
     {
-        value: 29, desc: "Auchan Bielsko-Biała"
+        value: 2003,
+        desc: "Auchan Bielsko-Biała"
     },
     {
-        value: 16, desc: "Auchan Bydgoszcz Fordon"
+        value: 2004,
+        desc: "Auchan Bydgoszcz Fordon"
     },
     {
-        value: 31, desc: "Auchan Częstochowa Poczesna"
+        value: 2007,
+        desc: "Auchan Częstochowa Poczesna"
     },
     {
-        value: 38, desc: "Auchan Gdańsk Szczęśliwa"
+        value: 2011,
+        desc: "Auchan Gdańsk Szczęśliwa"
     },
     {
-        value: 40, desc: "Auchan Gliwice"
+        value: 2025,
+        desc: "Auchan Kraków Bonarka"
     },
     {
-        value: 50, desc: "Auchan Kraków Bonarka"
+        value: 2027,
+        desc: "Auchan Legnica"
     },
     {
-        value: 52, desc: "Auchan Legnica"
+        value: 2029,
+        desc: "Auchan Lublin Al. Witosa"
     },
     {
-        value: 58, desc: "Auchan Lublin Al. Witosa"
+        value: 2038,
+        desc: "Auchan Piaseczno"
     },
     {
-        value: 67, desc: "Auchan Piaseczno"
+        value: 2041,
+        desc: "Auchan Poznań Komorniki"
     },
     {
-        value: 71, desc: "Auchan Poznań Komorniki"
+        value: 2042,
+        desc: "Auchan Poznań Swadzim"
     },
     {
-        value: 72, desc: "Auchan Poznań Swadzim"
+        value: 2048,
+        desc: "Auchan Rumia"
     },
     {
-        value: 76, desc: "Auchan Rumia"
+        value: 2050,
+        desc: "Auchan Rzeszów Krasne"
     },
     {
-        value: 78, desc: "Auchan Rzeszów Krasne"
+        value: 2051,
+        desc: "Auchan Sosnowiec"
     },
     {
-        value: 79, desc: "Auchan Rzeszów Krasne"
+        value: 2053,
+        desc: "Auchan Szczecin Kołbaskowo"
     },
     {
-        value: 82, desc: "Auchan Szczecin Kołbaskowo"
+        value: 2060,
+        desc: "Auchan Warszawa Modlińska"
     },
     {
-        value: 90, desc: "Auchan Warszawa Modlińska"
+        value: 2063,
+        desc: "Auchan Warszawa Wola"
     },
     {
-        value: 93, desc: "Auchan Warszawa Wola"
+        value: 2064,
+        desc: "Auchan Wałbrzych"
     },
     {
-        value: 88, desc: "Auchan Wałbrzych"
+        value: 2065,
+        desc: "Auchan Wrocław Kobierzyce"
     },
     {
-        value: 95, desc: "Auchan Wrocław Kobierzyce"
+        value: 2077,
+        desc: "Auchan Łomianki"
     },
     {
-        value: 5, desc: "Auchan Łomianki"
-    },
-    {
-        value: 100, desc: "Auchan Żory"
+        value: 2072,
+        desc: "Auchan Żory"
     }
 ];
 
-const periods = [
+export const periods = [
     {
         value: 3,
         desc: 'Last 3 days'
@@ -98,5 +117,3 @@ const periods = [
         desc: 'Last 90 days'
     }
 ];
-
-export {getPetrolPriceServiceUrl, petrolStations, periods};

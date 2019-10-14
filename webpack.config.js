@@ -1,8 +1,12 @@
+const {resolveProjectDir} = require('./project.utils');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { resolveProjectDir } = require('./project.utils');
 
 module.exports = {
-    entry: resolveProjectDir('resources/assets/js/index.js'),
+    devtool: '',
+    entry: {
+        main: resolveProjectDir('resources/assets/js/index.js')
+    },
     output: {
         path: resolveProjectDir('public/js')
     },
@@ -17,16 +21,21 @@ module.exports = {
                 test: /\.(sass|scss|css)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
                     {
-                        loader: 'css-loader'
-                    },
-                    {
-                        loader: 'sass-loader',
+                        loader: 'file-loader',
                         options: {
-                            sourceMap: true,
+                            name: '[name].[ext]',
+                            outputPath: '../fonts'
                         }
                     }
-                ],
+                ]
             }
         ]
     },
@@ -34,6 +43,12 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '../css/[name].css'
         }),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [
+                resolveProjectDir('public/js'),
+                resolveProjectDir('public/css')
+            ]
+        })
     ],
     watch: true
 };

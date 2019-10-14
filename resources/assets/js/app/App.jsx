@@ -11,7 +11,7 @@ class App extends React.Component {
 
         this.state = {
             form: {
-                stationId: 76,
+                stationId: 2001,
                 periodInDays: 7,
                 showTable: true
             },
@@ -58,8 +58,8 @@ class App extends React.Component {
 
     callPetrolPriceService() {
         let url = config.getPetrolPriceServiceUrl
-            .replace('{id}', this.state.form.stationId)
-            .replace('{days}', this.state.form.periodInDays);
+            .replace('{extId}', this.state.form.stationId)
+            .replace('{maxResults}', this.state.form.periodInDays * 2);
 
         axios.get(url).then(response => {
             this.setState({
@@ -74,7 +74,7 @@ class App extends React.Component {
         const stationName = config.petrolStations.find(element =>
             element.value === this.state.form.stationId
         ).desc;
-        
+
         const eventHandlers = {
             handleSelectChange: this.handleSelectChange,
             handleCheckboxChange: this.handleCheckboxChange,
@@ -86,7 +86,7 @@ class App extends React.Component {
                 <div className="container">
                     <div className="columns">
                         <div className="column is-4">
-                            <h1 className="title">Petrol Price App</h1>
+                            <h1 className="title"><i className="fas fa-gas-pump"></i>&nbsp;Petrol Price App</h1>
                             <p className="subtitle">Petrol prices on Auchan stations</p>
                             <PetrolForm {...formData} {...eventHandlers} />
                         </div>

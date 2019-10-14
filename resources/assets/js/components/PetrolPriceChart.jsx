@@ -11,7 +11,6 @@ class PetrolPriceChart extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('Chart update...');
         const chartData = this.props.chartData;
 
         const series = collectSeries(chartData, ['created_at', 'pb95', 'pb98', 'diesel', 'lpg']);

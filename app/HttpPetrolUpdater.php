@@ -69,7 +69,7 @@ class HttpPetrolUpdater
             $contents = $response->getBody()->getContents();
             $store = json_decode($contents);
 
-            if ($store->gasstation->state) {
+            if (isset($store->gasstation->state)) {
                 $petrolPrice = PetrolPriceMapper::create($store->gasstation->gas_types);
                 $auchanStore->prices()->save($petrolPrice);
             }

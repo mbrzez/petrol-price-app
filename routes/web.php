@@ -17,5 +17,5 @@ $router->get('/', function () {
 
 $router->group(['prefix' => 'api'], function() use ($router) {
     $router->get('auchan-stores', 'PetrolController@getAuchanStores');
-    $router->get('auchan-stores/{id}/petrol-prices', 'PetrolController@getPetrolPrices');
+    $router->get('auchan-stores/{extId}/petrol-prices', 'PetrolController@getPetrolPrices');
 });

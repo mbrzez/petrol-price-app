@@ -1,4 +1,4 @@
-const collectSeries = (data, names) => {
+export function collectSeries(data, names) {
     let obj = {};
 
     names.forEach((name) => {
@@ -18,9 +18,9 @@ const collectSeries = (data, names) => {
     });
 
     return obj;
-};
+}
 
-const combineSeriesWithDate = (time, values) => {
+export function combineSeriesWithDate(time, values) {
     let combined = [];
 
     const len = time.length;
@@ -30,6 +30,4 @@ const combineSeriesWithDate = (time, values) => {
     }
 
     return combined;
-};
-
-export {collectSeries, combineSeriesWithDate}
+}
