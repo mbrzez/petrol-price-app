@@ -1,5 +1,7 @@
 # Petrol Price App
 ## Description
+Petrol Price Application is deployed and available under http://petrolprice.hekko24.pl/
+
 Idea of an application is to fetch and store petrol prices from public API used on [Auchan](https://www.auchan.pl/) website. Auchan is a brand of French supermarkets operating in Poland. Some of their shops sale petrol. Application twice per day will fetch petrol prices by PHP command `petrol-prices:update`. Command execution will be scheduled by Unix cron. Application was built using Lumen PHP framework and React.
 
 PHP back-end can be found in `app` directory

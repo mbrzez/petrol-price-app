@@ -2,10 +2,18 @@
 
 namespace App;
 
+use App\Utils\DateZonedFormatter;
 use Illuminate\Database\Eloquent\Model;
 
 class PetrolPrice extends Model
 {
+    /**
+     * DateZonedFormatter
+     *
+     * @var App\Utils\DateZonedFormatter
+     */
+    private $formatter;
+
     /**
      * Explicit guarded model's properties
      *
@@ -39,6 +47,19 @@ class PetrolPrice extends Model
         'lpg' => 'double'
     ];
 
+
+    /**
+     * PetrolPrice constructor
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = array())
+    {
+        parent::__construct($attributes);
+
+        $this->formatter = new DateZonedFormatter(new \DateTimeZone('UTC'), 'Y-m-d H:i');
+    }
+
     /**
      * Defines relation between PetrolPrice and AuchanStore
      *
@@ -47,5 +68,19 @@ class PetrolPrice extends Model
     public function store()
     {
         return $this->belongsTo('App\AuchanStore');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return $this->formatter->formatValue($value,
+            new \DateTimeZone('Europe/Warsaw')
+        );
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $this->formatter->formatValue($value,
+            new \DateTimeZone('Europe/Warsaw')
+        );
     }
 }
