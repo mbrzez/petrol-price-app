@@ -36,8 +36,8 @@ class DateZonedFormatter
      * @throws \Exception
      */
     public function formatValue(string $value, \DateTimeZone $baseZone): string {
-        $dateTime = new \DateTime($value, $baseZone);
-        $dateTime->setTimezone($this->zone);
+        $dateTime = new \DateTime($value, $this->zone);
+        $dateTime->setTimezone($baseZone);
 
         return $dateTime->format($this->format);
     }
