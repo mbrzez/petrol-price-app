@@ -24,7 +24,6 @@ class PetrolPriceTable extends React.Component {
     createTableRows(items) {
         return items.map((item) =>
             <tr key={item['index']}>
-                <td>{item['index']}</td>
                 <td>{!!(item['pb95']) ? item['pb95'].toFixed(2) : ''}</td>
                 <td>{!!(item['pb98']) ? item['pb98'].toFixed(2) : ''}</td>
                 <td>{!!(item['diesel']) ? item['diesel'].toFixed(2) : ''}</td>
@@ -71,7 +70,6 @@ class PetrolPriceTable extends React.Component {
             <table className="table is-hoverable is-fullwidth">
                 <thead>
                     <tr>
-                        <td onClick={() => this.updateSorting('index')}><abbr title="Number">No</abbr></td>
                         <td onClick={() => this.updateSorting('pb95')}><abbr title="Pb 95">Pb 95</abbr></td>
                         <td onClick={() => this.updateSorting('pb98')}><abbr title="Pb 98">Pb 98</abbr></td>
                         <td onClick={() => this.updateSorting('diesel')}><abbr title="Diesel">Diesel</abbr></td>

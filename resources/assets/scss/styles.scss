@@ -12,10 +12,28 @@ input[type=checkbox] {
 }
 
 .chart-style {
-  min-width: 400px;
-  width: 100%;
-  min-height: 400px;
   height: 100%;
+  min-height: 350px;
+  width: 100%;
+}
+
+@include widescreen {
+  .chart-style {
+    min-width: 600px;
+  }
+}
+
+@include desktop {
+  .chart-style {
+    min-width: 400px;
+  }
+}
+
+@include mobile {
+  .chart-style {
+    min-width: 300px;
+    min-height: 280px;
+  }
 }
 
 thead tr td {

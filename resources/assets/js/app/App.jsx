@@ -85,21 +85,19 @@ class App extends React.Component {
             <section className="section">
                 <div className="container">
                     <div className="columns">
-                        <div className="column is-4">
+                        <div className="column is-one-third">
                             <h1 className="title"><i className="fas fa-gas-pump"></i>&nbsp;Petrol Price App</h1>
                             <p className="subtitle">Petrol prices on Auchan stations</p>
                             <PetrolForm {...formData} {...eventHandlers} />
                         </div>
-                        <div className="column is-8">
+                        <div className="column">
                             <PetrolPriceChart stationName={stationName} chartData={petrolPricesData}/>
                         </div>
                     </div>
-                    <div className="columns">
-                        <div className="column">
-                            { this.state.form.showTable &&
-                                <PetrolPriceTable tableData={petrolPricesData}/>
-                            }
-                        </div>
+                    <div className="table-container">
+                        { this.state.form.showTable &&
+                            <PetrolPriceTable tableData={petrolPricesData}/>
+                        }
                     </div>
                 </div>
             </section>
