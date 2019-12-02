@@ -3,7 +3,6 @@
 
 namespace App\Console\Commands;
 
-use App\HttpStoreUpdater;
 use App\HttpPetrolUpdater;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

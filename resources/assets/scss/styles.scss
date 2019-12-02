@@ -30,6 +30,14 @@ input[type=checkbox] {
 }
 
 @include mobile {
+  #chart-title {
+    display: none;
+  }
+
+  .table {
+    font-size: 0.8em;
+  }
+
   .chart-style {
     min-width: 300px;
     min-height: 280px;

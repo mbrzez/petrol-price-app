@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Utils\HttpClientUtils;
+use Illuminate\Support\Facades\Log;
 
 class HttpStoreUpdater
 {
@@ -78,17 +79,23 @@ class HttpStoreUpdater
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updatePetrolStationField(AuchanStore $auchanStore): void {
+        $hasStation = false;
         $subUrl = $auchanStore->getAttribute("sub_url");
-        $fullStoreResponse = $this->client->request('GET',
-            $this->httpUtils->getFullUrl($subUrl),
-            $this->httpUtils->getQueryApiParams()
-        );
 
-        $fullStoreContents = $fullStoreResponse->getBody()->getContents();
-        $fullStoreInfo = json_decode($fullStoreContents);
-        $hasStation = $fullStoreInfo->gasstation->state ? true : false;
+        try {
+            $fullStoreResponse = $this->client->request('GET',
+                $this->httpUtils->getFullUrl($subUrl),
+                $this->httpUtils->getQueryApiParams()
+            );
 
-        $auchanStore->setAttribute('petrol_station', $hasStation);
-        $auchanStore->save();
+            $fullStoreContents = $fullStoreResponse->getBody()->getContents();
+            $fullStoreInfo = json_decode($fullStoreContents);
+            $hasStation = $fullStoreInfo->gasstation->state ? true : false;
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+        } finally {
+            $auchanStore->setAttribute('petrol_station', $hasStation);
+            $auchanStore->save();
+        }
     }
 }

@@ -37,7 +37,7 @@ class PetrolPriceChart extends React.Component {
     render() {
         return (
             <div>
-                <h3 className="title is-4 has-text-centered">
+                <h3 id="chart-title" className="title is-4 has-text-centered">
                     Petrol station {this.props.stationName}
                 </h3>
                 <div id="chart" className="chart-style"></div>
